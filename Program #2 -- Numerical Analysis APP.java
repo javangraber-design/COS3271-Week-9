@@ -1,11 +1,12 @@
 //Programmer: Javan Graber
-//Date: 10/27/26
+//Date: 10/28/26
 
 package javanproject;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MyProject {   
     static Scanner userinput = new Scanner(System.in); 
@@ -16,92 +17,78 @@ public class MyProject {
 		Scanner datainput = new Scanner(textFile);
 		
 		//Initialize the variables
-		String all;
-		int words = 0;
-		int letters = 0;
-		int sentences = 0;
+		String full;
+		int amount = 0;
 		String number1, number2, number3, number4, number5, number6;
-		double flt1, flt2, flt3, flt4, flt5, flt6;
+		double do1, do2, do3, do4, do5, do6;
 		double totalSum = 0;
-
-		int[] counter = new int[26];
 		
-		//Get every character of the text file
+		//Initialize the list of all the numbers
+		ArrayList<Double> numberList = new ArrayList<Double>();
+		
+		//Get the information from the text file
 		while (datainput.hasNextLine()) {
-			words++;
-			all = datainput.nextLine();
-			all = all.trim();
-			System.out.println(all);
+			amount++;
+			full = datainput.nextLine();
+			full = full.trim();
+			System.out.println(full);
 			
-			number1 = all.substring(0, 9);
-			number2 = all.substring(10, 19);
-			number3 = all.substring(20, 29);
-			number4 = all.substring(30, 39);
-			number5 = all.substring(40, 49);
-			number6 = all.substring(50, 59);
+			//Get each of the substrings
+			number1 = full.substring(0, 9);
+			number2 = full.substring(10, 19);
+			number3 = full.substring(20, 29);
+			number4 = full.substring(30, 39);
+			number5 = full.substring(40, 49);
+			number6 = full.substring(50, 59);
 			
-			flt1 = Double.parseDouble(number1.trim());
-			flt2 = Double.parseDouble(number2.trim());
-			flt3 = Double.parseDouble(number3.trim());
-			flt4 = Double.parseDouble(number4.trim());
-			flt5 = Double.parseDouble(number5.trim());
-			flt6 = Double.parseDouble(number6.trim());
+			//Turn the substrings into doubles and add them to the list
+			do1 = Double.parseDouble(number1.trim());
+			numberList.add(do1);
+			do2 = Double.parseDouble(number2.trim());
+			numberList.add(do2);
+			do3 = Double.parseDouble(number3.trim());
+			numberList.add(do3);
+			do4 = Double.parseDouble(number4.trim());
+			numberList.add(do4);
+			do5 = Double.parseDouble(number5.trim());
+			numberList.add(do5);
+			do6 = Double.parseDouble(number6.trim());
+			numberList.add(do6);
 			
-			totalSum += flt1 + flt2 + flt3 + flt4 + flt5 + flt6;
+			//Find the total sum of the numbers to later get the average
+			totalSum += do1 + do2 + do3 + do4 + do5 + do6;
 			
-			System.out.println(flt1 + " " + flt2 + " " + flt3 + " " + flt4 + " " + flt5 + " " + flt6 + " ");
-			System.out.format("Total sum = %.4f\n", totalSum);
-			System.out.println();
-			//Scan through each of the characters
-			for (int j = 0; j < all.length(); j++) {
+			//Scan through to find the number of numbers
+			for (int j = 0; j < full.length(); j++) {
 				
-				//Count the words
-				if ((all.charAt(j) == ' ') && (all.charAt(j + 1) != ' ')) {
-					words++;
+				//Count the numbers
+				if ((full.charAt(j) == ' ') && (full.charAt(j + 1) != ' ')) {
+					amount++;
 				}
-				
-				//Count the sentences
-				if ((all.charAt(j) == '.') || (all.charAt(j) == '!') || (all.charAt(j) == '?')){
-					sentences++;
-				}
-				
-				//To find if it is an a, b, c, etc., get its ASCII value and take away the lowest outcome from it
-				//This will leave 0-25, which can then be assigned to the respective letter for both capitals and lower case letters
-				int ascii = (int) (all.charAt(j));
-				if ((ascii >= 97) && (ascii <= 122)) {
-					counter[ascii - 97]++;
-				}
-				if ((ascii >= 65) && (ascii <= 90)) {
-					counter[ascii - 65]++;
-				}
-			
 			}
 		}
 		datainput.close();
 		
-		//Count the occurrences of each letter
-		for (int j = 0; j <= 25; j++) {
-			letters += counter[j];
-		}
-		//Display the number of words, letters, and sentences
+		//Sort the list
 		System.out.println();
-		System.out.println();
-		System.out.println("Number of words: " + words);
-		System.out.println("Number of letters: " + letters);
-		System.out.println("Number of sentences: " + sentences);
-		System.out.println("Total Sum: " + totalSum);
+		Collections.sort(numberList);
 		
-		//Convert the values to floats to perform the calculations and display the averages
-		float fltLetters = letters;
-		float fltWords = words;
-		float averageLetters = fltLetters / fltWords;
-		System.out.format("Average number of letters per word = %.1f\n", averageLetters);
+		//Find the smallest and largest numbers
+		Double smallest = Collections.min(numberList);
+		System.out.println("Smallest number: " + smallest);
 		
-		float fltSentences = sentences;
-		float averageWords = fltWords / fltSentences;
-		System.out.format("Average number of words per sentence = %.1f\n", averageWords);
-		System.out.println("\nProgram ended ...");
-    	
+		Double largest = Collections.max(numberList);
+		System.out.println("Largest number: " + largest);
+		
+		//Display the number of numbers
+		System.out.println("Number of numbers: " + amount);
+		
+		//Display the mean
+		System.out.println("Average (mean) of the data: " + (totalSum / 18));
+		
+		//Find the range
+		double range = largest - smallest;
+		System.out.println("The range of the numbers is: " + range);
     	}
     	
     }
